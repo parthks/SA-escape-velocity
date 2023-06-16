@@ -52,9 +52,7 @@ const PLAY_FOR_BEFORE_REFRESH = 10 * 60 * 1000;
 
   // Open a new page and navigate to a website
   const page = await browser.newPage();
-  await page.goto("https://sage.staratlas.com", {
-    waitUntil: "networkidle2",
-  });
+  await page.goto("https://sage.staratlas.com");
 
   const allPages = await browser.pages();
   await allPages[0].close(); // empty tab page
