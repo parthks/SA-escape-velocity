@@ -19,8 +19,8 @@ if (fs.existsSync("./data.json")) {
 
 const extensionPath = "~/Library/Application Support/Google/Chrome/Profile 2/Extensions/bhhhlbepdkbapadjdnnojkbgioiodbic/1.44.0_0";
 
-// 10 min in milliseconds
-const PLAY_FOR_BEFORE_REFRESH = 10 * 60 * 1000;
+// 15 min in milliseconds
+const PLAY_FOR_BEFORE_REFRESH = 15 * 60 * 1000;
 
 // const rl = readline.createInterface({
 //   input: process.stdin,
