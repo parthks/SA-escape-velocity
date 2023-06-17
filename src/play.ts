@@ -131,7 +131,7 @@ export default class PlayGame {
     await page.mouse.click(this.currentNavBarShipX, this.currentNavBarShipY);
 
     // sleep for the animation to move to the ship and buttons to show up
-    await sleep(350);
+    await sleep(600);
     await clearDisplayInjections(page);
   }
 
@@ -139,7 +139,7 @@ export default class PlayGame {
     // click scan button
     // console.info("clicked scan button");
     await injectClickDisplay(page, this.scanButtonX, this.scanButtonY);
-    await sleep(250);
+    await sleep(200);
     // console.info("waiting for request to start", new Date());
     // page.waitForRequest((request) => request.url().includes("https://solana-api.syndica.io/access-token")),
     await Promise.all([page.mouse.click(this.scanButtonX, this.scanButtonY)]);
@@ -177,13 +177,13 @@ export default class PlayGame {
     // click warp button
     // console.info("clicked warp button");
     await injectClickDisplay(page, this.warpButtonX, this.warpButtonY);
-    await sleep(250);
+    await sleep(200);
     await page.mouse.click(this.warpButtonX, this.warpButtonY);
 
     // select random spot to warp to
     const warpToX = this.centerX;
     const warpToY = this.centerY - 40;
-    await sleep(500); // for the green boxes to appear after clicking warp
+    await sleep(400); // for the green boxes to appear after clicking warp
     // console.info("warping up one spot", warpToX, warpToY);
     await injectClickDisplay(page, warpToX, warpToY);
     // console.info("waiting for request to start", new Date());
@@ -198,13 +198,13 @@ export default class PlayGame {
     // click warp button
     // console.info("clicked warp button");
     await injectClickDisplay(page, this.warpButtonX, this.warpButtonY);
-    await sleep(250);
+    await sleep(200);
     await page.mouse.click(this.warpButtonX, this.warpButtonY);
 
     // select random spot to warp to
     const warpToX = this.centerX;
     const warpToY = this.centerY + 40;
-    await sleep(500); // for the green boxes to appear after clicking warp
+    await sleep(400); // for the green boxes to appear after clicking warp
     // console.info("warping down one spot", warpToX, warpToY);
     await injectClickDisplay(page, warpToX, warpToY);
     // console.info("waiting for request to start", new Date());
