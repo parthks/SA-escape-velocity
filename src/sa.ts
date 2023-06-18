@@ -264,6 +264,9 @@ async function initializeGame(page: Page) {
     if (msg.text().includes("caught (in promise) TypeError: Cannot read properties of undefined (reading 'onError')")) {
       throw new Error("FFAAAAAAK what is this shit!!! - delete cookies");
     }
+    if (msg.text().includes("Received a broken close frame containing a reserved status code.")) {
+      throw new Error("PAGE CRASHED - need hard reload!");
+    }
   };
   // Start listening for console events
   const logsListener = page.on("console", logHandler);

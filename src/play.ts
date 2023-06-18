@@ -80,7 +80,7 @@ export default class PlayGame {
       // scan or warp
       if (this.currentAction === "scan") {
         await this.scan(this.page);
-        if (i < 7) await sleep(250); // give some time between the scans
+        if (i < 7) await sleep(200); // give some time between the scans
       } else await this.warp(this.page);
 
       // close warning popup if it shows up
