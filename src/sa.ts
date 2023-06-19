@@ -20,7 +20,8 @@ if (fs.existsSync("./data.json")) {
 const extensionPath = "~/Library/Application Support/Google/Chrome/Profile 2/Extensions/bhhhlbepdkbapadjdnnojkbgioiodbic/1.44.0_0";
 
 // 15 min in milliseconds
-const PLAY_FOR_BEFORE_REFRESH = 15 * 60 * 1000;
+const INITIAL_PLAY_FOR_BEFORE_REFRESH = 15 * 60 * 1000;
+let PLAY_FOR_BEFORE_REFRESH = INITIAL_PLAY_FOR_BEFORE_REFRESH; // if error make this 0 to refresh now!
 
 // const rl = readline.createInterface({
 //   input: process.stdin,
@@ -78,6 +79,7 @@ const PLAY_FOR_BEFORE_REFRESH = 15 * 60 * 1000;
   // let answer = "resume" as "resume" | "quit" | "pause";
 
   while (true) {
+    PLAY_FOR_BEFORE_REFRESH = INITIAL_PLAY_FOR_BEFORE_REFRESH;
     let tryToInitializeCount = 0;
     while (true) {
       await sleep(5000);
@@ -262,10 +264,14 @@ async function initializeGame(page: Page) {
   const logHandler = (msg) => {
     console.log("LOG:", msg.text());
     if (msg.text().includes("caught (in promise) TypeError: Cannot read properties of undefined (reading 'onError')")) {
-      throw new Error("FFAAAAAAK what is this shit!!! - delete cookies");
+      // throw new Error("FFAAAAAAK what is this shit!!! - delete cookies");
+      console.error("FFAAAAAAK what is this shit!!! - delete cookies");
+      PLAY_FOR_BEFORE_REFRESH = 0;
     }
     if (msg.text().includes("Received a broken close frame containing a reserved status code.")) {
-      throw new Error("PAGE CRASHED - need hard reload!");
+      // throw new Error("PAGE CRASHED - need hard reload!");
+      console.error("PAGE CRASHED - need hard reload!");
+      PLAY_FOR_BEFORE_REFRESH = 0;
     }
   };
   // Start listening for console events
