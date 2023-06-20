@@ -41,7 +41,7 @@ export async function clearDisplayInjections(page: Page) {
 
 export async function alertPage(page: Page, message: string) {
   await page.evaluate((message) => {
-    alert(message);
+    // alert(message);
   }, message);
 }
 
