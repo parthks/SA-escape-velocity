@@ -7,23 +7,41 @@ export const extensionPath = "~/Library/Application Support/Google/Chrome/Profil
 export const PLAY_FOR_BEFORE_REFRESH = 15 * 60 * 1000;
 
 const gamePage = new GamePage();
-let errorCount = 0;
+const errorCount = {} as Record<string, number>;
 
 process.on("uncaughtException", async (err) => {
   console.log("An uncaught exception occurred:", err);
+  errorCount[new Date().getTime()] = Date.now();
+  checkErrorCount();
   startGameLoop();
 });
 
 process.on("unhandledRejection", async (reason, promise) => {
   console.log("An unhandled promise rejection occurred:", reason);
+  errorCount[new Date().getTime()] = Date.now();
+  checkErrorCount();
   startGameLoop();
 });
 
+// check if you have 5 errors in the last 1 minute, then STOP
+const MAX_ERROR_COUNT = 5;
+function checkErrorCount() {
+  console.log("Checking error count");
+  const now = Date.now();
+  for (const [key, value] of Object.entries(errorCount)) {
+    if (now - value > 60 * 1000) {
+      delete errorCount[key];
+    }
+  }
+  if (Object.keys(errorCount).length > MAX_ERROR_COUNT) {
+    console.log("Too many errors, exiting");
+    process.exit(1);
+  }
+}
+
 async function startGameLoop() {
-  errorCount++;
-  await gamePage.initialize(errorCount > 3);
+  await gamePage.initialize();
   await gamePage.hardReloadPage();
-  errorCount = 0;
   gamePage.runGameLoop();
 }
 

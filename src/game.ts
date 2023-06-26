@@ -27,16 +27,14 @@ export default class GamePage {
     }
   }
 
-  async initialize(hardReset: boolean) {
-    if (hardReset) {
-      await this.browser?.close();
-      this.browser = null;
-      this.page = null;
-      await sleep(1000);
-    }
-    if (this.browser && this.page) {
-      return;
-    }
+  async initialize() {
+    // throw new Error("Test error"); // This should trigger the uncaughtException handler
+
+    await this.browser?.close();
+    this.browser = null;
+    this.page = null;
+    await sleep(1000);
+
     this.browser = await puppeteer.launch({
       headless: false, // Set to false to see the browser in action
       userDataDir: "./user_data",
@@ -57,6 +55,9 @@ export default class GamePage {
         await page.close();
       }
     }
+    // focus first page
+    await this.page.bringToFront();
+
     // put an alert confirm popup to start the bot
     // await alertPage(this.page, "Setup your wallet and Press Ok");
   }
@@ -94,13 +95,17 @@ export default class GamePage {
     console.log("hard reloading page...");
     await this.deleteCookiesOnPage();
     await this.page.reload({ waitUntil: "networkidle0", timeout: 60000 });
+    console.log("page reloaded, waiting for menu to fade in...");
     await sleep(2000); // menu to fade in...
   }
 
   async runGameLoop() {
+    console.log("running game loop...");
     const data = JSON.parse(fs.readFileSync("./data.json", "utf8"));
     this.CURRENT_STARTING_POSITION = data.currentPosition;
     this.CURRENT_MOVING_DIRECTION = data.currentMovingDirection;
+
+    await sleep(5000); // stupid menu animation takes time to fade in
 
     try {
       // Your game loop here, using this.page...
@@ -141,6 +146,7 @@ export default class GamePage {
   }
 
   async connectWallet() {
+    console.log("starting to connect wallet...");
     // Get the dimensions of the viewport
     const { width, height } = await this.page.evaluate(() => {
       return {
