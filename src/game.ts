@@ -168,7 +168,7 @@ export default class GamePage {
     }
 
     // connect wallet
-    await this.page.mouse.click(centerX, centerY + 0.07 * height);
+    await this.page.mouse.click(centerX, centerY + 42);
     await sleep(2000);
 
     // disclaimer - only first time
@@ -178,7 +178,7 @@ export default class GamePage {
     }
 
     // select wallet
-    await this.page.mouse.click(centerX, centerY + 0.035 * height);
+    await this.page.mouse.click(centerX, centerY + 20);
     await sleep(5000); // solflare animation on first connect
     // have to approve on solflare wallet
 

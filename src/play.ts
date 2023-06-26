@@ -4,6 +4,9 @@ import * as fs from "fs";
 import { Page } from "puppeteer";
 import { NUM_OF_SHIPS } from "./sa";
 import { clearDisplayInjections, getRandomOvalCoordinates, injectClickDisplay, positionOffset, sleep } from "./utils";
+
+const NEXT_BLOCK_WARP_POSITION = 40;
+
 export default class PlayGame {
   page: Page;
   width: number;
@@ -182,7 +185,7 @@ export default class PlayGame {
 
     // select random spot to warp to
     const warpToX = this.centerX;
-    const warpToY = this.centerY - 40;
+    const warpToY = this.centerY - NEXT_BLOCK_WARP_POSITION;
     await sleep(400); // for the green boxes to appear after clicking warp
     // console.info("warping up one spot", warpToX, warpToY);
     await injectClickDisplay(page, warpToX, warpToY);
@@ -203,7 +206,7 @@ export default class PlayGame {
 
     // select random spot to warp to
     const warpToX = this.centerX;
-    const warpToY = this.centerY + 40;
+    const warpToY = this.centerY + NEXT_BLOCK_WARP_POSITION;
     await sleep(400); // for the green boxes to appear after clicking warp
     // console.info("warping down one spot", warpToX, warpToY);
     await injectClickDisplay(page, warpToX, warpToY);
