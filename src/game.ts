@@ -94,9 +94,9 @@ export default class GamePage {
   async hardReloadPage() {
     console.log("hard reloading page...");
     await this.deleteCookiesOnPage();
-    await this.page.reload({ waitUntil: "networkidle0", timeout: 60000 });
+    await this.page.reload({ waitUntil: "networkidle2", timeout: 60000 });
     console.log("page reloaded, waiting for menu to fade in...");
-    await sleep(2000); // menu to fade in...
+    await sleep(5000); // menu to fade in...
   }
 
   async runGameLoop() {
@@ -146,6 +146,7 @@ export default class GamePage {
   }
 
   async connectWallet() {
+    await sleep(15000); // stupid menu animation takes time to fade in
     console.log("starting to connect wallet...");
     // Get the dimensions of the viewport
     const { width, height } = await this.page.evaluate(() => {
