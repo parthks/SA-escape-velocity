@@ -1,4 +1,5 @@
 import GamePage from "./game";
+import { sleep } from "./utils";
 
 export const NUM_OF_SHIPS = 15;
 export const extensionPath = "~/Library/Application Support/Google/Chrome/Profile 2/Extensions/bhhhlbepdkbapadjdnnojkbgioiodbic/1.44.0_0";
@@ -13,6 +14,7 @@ process.on("uncaughtException", async (err) => {
   console.log("An uncaught exception occurred:", err);
   errorCount[new Date().getTime()] = Date.now();
   checkErrorCount();
+  await sleep(3000);
   startGameLoop();
 });
 
@@ -20,6 +22,7 @@ process.on("unhandledRejection", async (reason, promise) => {
   console.log("An unhandled promise rejection occurred:", reason);
   errorCount[new Date().getTime()] = Date.now();
   checkErrorCount();
+  await sleep(3000);
   startGameLoop();
 });
 

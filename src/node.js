@@ -2,7 +2,7 @@
 
 const puppeteer = require("puppeteer");
 
-const extensionPath = "~/Library/Application Support/Google/Chrome/Profile 2/Extensions/bhhhlbepdkbapadjdnnojkbgioiodbic/1.44.0_0";
+const extensionPath = "~/Library/Application Support/Google/Chrome/Profile 2/Extensions/bhhhlbepdkbapadjdnnojkbgioiodbic/1.45.0_0";
 
 const browser = await puppeteer.launch({
   headless: false, // Set to false to see the browser in action
