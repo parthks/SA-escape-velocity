@@ -2,7 +2,7 @@ import GamePage from "./game";
 import { sleep } from "./utils";
 
 export const NUM_OF_SHIPS = 15;
-export const extensionPath = "~/Library/Application Support/Google/Chrome/Profile 2/Extensions/bhhhlbepdkbapadjdnnojkbgioiodbic/1.44.0_0";
+export const extensionPath = "~/Library/Application Support/Google/Chrome/Profile 2/Extensions/bhhhlbepdkbapadjdnnojkbgioiodbic/1.45.0_0";
 
 // 15 min in milliseconds
 export const PLAY_FOR_BEFORE_REFRESH = 15 * 60 * 1000;
