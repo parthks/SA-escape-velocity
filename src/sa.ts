@@ -26,13 +26,13 @@ process.on("unhandledRejection", async (reason, promise) => {
   startGameLoop();
 });
 
-// check if you have 5 errors in the last 1 minute, then STOP
+// check if you have 5 errors in the last 2 minute, then STOP
 const MAX_ERROR_COUNT = 5;
 function checkErrorCount() {
   console.log("Checking error count");
   const now = Date.now();
   for (const [key, value] of Object.entries(errorCount)) {
-    if (now - value > 60 * 1000) {
+    if (now - value > 120 * 1000) {
       delete errorCount[key];
     }
   }
