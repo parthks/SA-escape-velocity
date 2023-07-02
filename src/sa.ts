@@ -4,17 +4,17 @@ import { sleep } from "./utils";
 export const NUM_OF_SHIPS = 15;
 export const extensionPath = "~/Library/Application Support/Google/Chrome/Profile 2/Extensions/bhhhlbepdkbapadjdnnojkbgioiodbic/1.45.0_0";
 
-// 15 min in milliseconds
-export const PLAY_FOR_BEFORE_REFRESH = 15 * 60 * 1000;
-
 const gamePage = new GamePage();
 const errorCount = {} as Record<string, number>;
+
+// random int from 300 to 600
+const randomTime = () => Math.floor(Math.random() * 300) + 300;
 
 process.on("uncaughtException", async (err) => {
   console.log("An uncaught exception occurred:", err);
   errorCount[new Date().getTime()] = Date.now();
   checkErrorCount();
-  await sleep(3000);
+  await sleep(randomTime());
   startGameLoop();
 });
 
@@ -22,17 +22,17 @@ process.on("unhandledRejection", async (reason, promise) => {
   console.log("An unhandled promise rejection occurred:", reason);
   errorCount[new Date().getTime()] = Date.now();
   checkErrorCount();
-  await sleep(3000);
+  await sleep(randomTime());
   startGameLoop();
 });
 
-// check if you have 5 errors in the last 2 minute, then STOP
+// check if you have 5 errors in the last 1 minute, then STOP
 const MAX_ERROR_COUNT = 5;
 function checkErrorCount() {
   console.log("Checking error count");
   const now = Date.now();
   for (const [key, value] of Object.entries(errorCount)) {
-    if (now - value > 120 * 1000) {
+    if (now - value > 60 * 1000) {
       delete errorCount[key];
     }
   }

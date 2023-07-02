@@ -1,5 +1,5 @@
 import puppeteer, { Browser, Page } from "puppeteer";
-import { PLAY_FOR_BEFORE_REFRESH, extensionPath } from "./sa";
+import { extensionPath } from "./sa";
 import { alertPage, sleep } from "./utils";
 import PlayGame from "./play";
 import * as fs from "fs";
@@ -28,13 +28,9 @@ export default class GamePage {
   }
 
   async initialize() {
-    // throw new Error("Test error"); // This should trigger the uncaughtException handler
-
-    await this.browser?.close();
-    this.browser = null;
-    this.page = null;
-    await sleep(1000);
-
+    if (this.browser && this.page) {
+      return;
+    }
     this.browser = await puppeteer.launch({
       headless: false, // Set to false to see the browser in action
       userDataDir: "./user_data",
@@ -55,9 +51,6 @@ export default class GamePage {
         await page.close();
       }
     }
-    // focus first page
-    await this.page.bringToFront();
-
     // put an alert confirm popup to start the bot
     // await alertPage(this.page, "Setup your wallet and Press Ok");
   }
@@ -95,17 +88,18 @@ export default class GamePage {
     console.log("hard reloading page...");
     await this.deleteCookiesOnPage();
     await this.page.reload({ waitUntil: "networkidle2", timeout: 60000 });
-    console.log("page reloaded, waiting for menu to fade in...");
     await sleep(5000); // menu to fade in...
   }
 
   async runGameLoop() {
-    console.log("running game loop...");
     const data = JSON.parse(fs.readFileSync("./data.json", "utf8"));
     this.CURRENT_STARTING_POSITION = data.currentPosition;
     this.CURRENT_MOVING_DIRECTION = data.currentMovingDirection;
 
     await sleep(5000); // stupid menu animation takes time to fade in
+
+    // random time from 15 to 30 min in milliseconds
+    const PLAY_FOR_BEFORE_REFRESH = Math.floor(Math.random() * 15 * 60 * 1000) + 15 * 60 * 1000;
 
     try {
       // Your game loop here, using this.page...
@@ -169,7 +163,7 @@ export default class GamePage {
     }
 
     // connect wallet
-    await this.page.mouse.click(centerX, centerY + 42);
+    await this.page.mouse.click(centerX, centerY + 0.07 * height);
     await sleep(2000);
 
     // disclaimer - only first time
@@ -179,7 +173,7 @@ export default class GamePage {
     }
 
     // select wallet
-    await this.page.mouse.click(centerX, centerY + 20);
+    await this.page.mouse.click(centerX, centerY + 0.035 * height);
     await sleep(5000); // solflare animation on first connect
     // have to approve on solflare wallet
 
